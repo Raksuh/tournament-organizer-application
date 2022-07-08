@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Container } from '@material-ui/core';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 
-function App() {
+import NavBar from './components/NavBar/NavBar';
+import Home from './components/Home/Home';
+import Auth from './components/Auth/Auth';
+import TournamentDetails from './components/Tournaments/TournamentDetails/TournamentDetails';
+
+const App = () => {
+  const user = JSON.parse(localStorage.getItem('profile'));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Container maxWidth='lg'>
+        <NavBar />
+        <Switch>
+          <Route path='/' exact component={() => <Redirect to='/tournaments' />} />
+          <Route path='/tournaments' exact component={Home} />
+          <Route path='/tournaments/search' exact component={Home} />
+          <Route path='/tournaments/:id' exact component={TournamentDetails} />
+          <Route
+            path='/auth'
+            exact
+            component={() => (!user ? <Auth /> : <Redirect to='/tournaments' />)}
+          />
+        </Switch>
+      </Container>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
