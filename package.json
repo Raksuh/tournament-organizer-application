@@ -44,6 +44,9 @@
       "last 1 safari version"
     ]
   },
+  "engines": {
+    "node": ">= 14.0.0"
+  },
   "devDependencies": {
     "eslint": "~8.19.0",
     "eslint-config-airbnb": "~19.0.4",
