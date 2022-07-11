@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { GoogleLogin } from 'react-google-login';
-import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { GoogleLogin } from "react-google-login";
+import { Avatar, Button, Paper, Grid, Typography, Container } from "@material-ui/core";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-import useStyles from './styles';
-import Input from './Input';
-import { signIn, signUp } from '../../actions/auth';
-import Icon from './icon';
+import useStyles from "./styles";
+import Input from "./Input";
+import { signIn, signUp } from "../../actions/auth";
+import Icon from "./icon";
 
 const initialState = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  password: '',
-  confirmPassword: '',
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const Auth = () => {
@@ -25,15 +25,22 @@ const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
   const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("profile"));
+
+  useEffect(() => {
+    if (user) {
+      navigate("/tournaments");
+    }
+  }, [user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (isSignup) {
-      dispatch(signUp(formData, history));
+      dispatch(signUp(formData, navigate));
     } else {
-      dispatch(signIn(formData, history));
+      dispatch(signIn(formData, navigate));
     }
   };
   const handleChange = (e) => {
@@ -51,8 +58,8 @@ const Auth = () => {
     const token = response?.tokenId;
 
     try {
-      dispatch({ type: 'AUTH', data: { profileObj, token } });
-      history.push('/');
+      dispatch({ type: "AUTH", data: { profileObj, token } });
+      navigate("/");
     } catch (error) {
       console.error(error);
     }
@@ -60,7 +67,7 @@ const Auth = () => {
 
   const googleLoginFailure = (error) => {
     console.error(error);
-    console.log('Google Sign In was unsuccessful. Try Again Later');
+    console.log("Google Sign In was unsuccessful. Try Again Later");
   };
 
   return (
@@ -69,7 +76,7 @@ const Auth = () => {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography variant='h5'>{isSignup ? 'Sign Up' : 'Sign In'}</Typography>
+        <Typography variant='h5'>{isSignup ? "Sign Up" : "Sign In"}</Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             {isSignup && (
@@ -96,7 +103,7 @@ const Auth = () => {
             )}
             <>
               <Input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 name='password'
                 label='Password'
                 handleChange={handleChange}
@@ -118,7 +125,7 @@ const Auth = () => {
               color='primary'
               className={classes.submit}
             >
-              {isSignup ? 'Sign Up' : 'Sign In'}
+              {isSignup ? "Sign Up" : "Sign In"}
             </Button>
             <GoogleLogin
               clientId='293975928612-sapg6vhfj7rhjag5goehapvb79j503o3.apps.googleusercontent.com'
@@ -142,7 +149,7 @@ const Auth = () => {
             <Grid container justifyContent='flex-end'>
               <Grid item>
                 <Button variant='text' onClick={switchMode}>
-                  {isSignup ? 'Login to an existing account' : 'Create an account'}
+                  {isSignup ? "Login to an existing account" : "Create an account"}
                 </Button>
               </Grid>
             </Grid>

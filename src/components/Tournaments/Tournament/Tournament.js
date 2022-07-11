@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Card,
   CardActions,
@@ -7,27 +7,27 @@ import {
   Button,
   Typography,
   ButtonBase,
-} from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-import DeleteIcon from '@material-ui/icons/Delete';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import { format, parseISO } from 'date-fns';
-import { fr } from 'date-fns/locale';
-import { useDispatch } from 'react-redux';
-import { addPlayer, removePlayer, deleteTournament } from '../../../actions/tournaments';
-import { useHistory } from 'react-router-dom';
+} from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+import DeleteIcon from "@material-ui/icons/Delete";
+import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
+import { format, parseISO } from "date-fns";
+import { fr } from "date-fns/locale";
+import { useDispatch } from "react-redux";
+import { addPlayer, removePlayer, deleteTournament } from "../../../actions/tournaments";
+import { useNavigate } from "react-router-dom";
 
-import noImage from '../../../images/no-image.svg';
-import useStyles from './styles';
+import noImage from "../../../images/no-image.svg";
+import useStyles from "./styles";
 
 const Tournament = ({ tournament, setCurrentTournamentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem('profile'));
+  const user = JSON.parse(localStorage.getItem("profile"));
   const isTournamentCreatorConnected =
     user?.result?.googleId === tournament?.createdBy || user?.result?._id === tournament?.createdBy;
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const Registration = () => {
     return tournament.players.find(
@@ -61,7 +61,7 @@ const Tournament = ({ tournament, setCurrentTournamentId }) => {
 
   const openTournamentDetails = (e) => {
     console.log(e.target || e.srcElement);
-    history.push(`/tournaments/${tournament._id}`);
+    navigate(`/tournaments/${tournament._id}`);
   };
 
   return (
@@ -85,15 +85,15 @@ const Tournament = ({ tournament, setCurrentTournamentId }) => {
           </Typography>
 
           <Typography variant='body2'>
-            By {tournament.name} at{' '}
-            {format(parseISO(tournament.createdAt), 'MM/dd/yyyy', { locale: fr })}
+            By {tournament.name} at{" "}
+            {format(parseISO(tournament.createdAt), "MM/dd/yyyy", { locale: fr })}
           </Typography>
         </div>
 
         {isTournamentCreatorConnected && (
           <div className={classes.overlay2}>
             <Button
-              style={{ color: 'white' }}
+              style={{ color: "white" }}
               size='small'
               onClick={(e) => {
                 e.stopPropagation();

@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory, useLocation } from 'react-router-dom';
-import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-import decode from 'jwt-decode';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import decode from "jwt-decode";
 
-import niortgaa from '../../images/niortgaa.svg';
-import useStyles from './styles';
-import { LOGOUT } from '../../constants/actionTypes';
+import niortgaa from "../../images/niortgaa.svg";
+import useStyles from "./styles";
+import { LOGOUT } from "../../constants/actionTypes";
 
 const NavBar = () => {
   const classes = useStyles();
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const logout = () => {
     dispatch({ type: LOGOUT });
-    history.push('/');
+    navigate("/");
     setUser(null);
   };
 
@@ -32,7 +32,7 @@ const NavBar = () => {
       }
     }
 
-    setUser(JSON.parse(localStorage.getItem('profile')));
+    setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
 
   return (

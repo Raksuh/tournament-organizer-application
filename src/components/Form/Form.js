@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { TextField, Button, Typography, Paper } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import FileBase from 'react-file-base64';
-import useStyles from './styles';
-import { createTournament, updateTournament } from '../../actions/tournaments';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { TextField, Button, Typography, Paper } from "@material-ui/core";
+import { useDispatch, useSelector } from "react-redux";
+import FileBase from "react-file-base64";
+import useStyles from "./styles";
+import { createTournament, updateTournament } from "../../actions/tournaments";
+import { useNavigate } from "react-router-dom";
 
 const Form = ({ currentTournamentId, setCurrentTournamentId }) => {
   const classes = useStyles();
   const [tournamentData, setTournamentData] = useState({
-    location: '',
-    at: '',
-    dueDate: '',
+    location: "",
+    at: "",
+    dueDate: "",
     players: [],
     vehicules: [],
     playerCount: 0,
-    selectedFile: '',
+    selectedFile: "",
   });
   const tournament = useSelector((state) =>
     currentTournamentId ? state.tournaments.find((t) => t._id === currentTournamentId) : null,
   );
   const dispatch = useDispatch();
-  const history = useHistory();
-  const user = JSON.parse(localStorage.getItem('profile'));
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
     if (tournament) setTournamentData(tournament);
@@ -31,13 +31,13 @@ const Form = ({ currentTournamentId, setCurrentTournamentId }) => {
   const clear = () => {
     setCurrentTournamentId(null);
     setTournamentData({
-      location: '',
-      at: '',
-      dueDate: '',
+      location: "",
+      at: "",
+      dueDate: "",
       players: [],
       vehicules: [],
       playerCount: 0,
-      selectedFile: '',
+      selectedFile: "",
     });
   };
 
@@ -49,7 +49,7 @@ const Form = ({ currentTournamentId, setCurrentTournamentId }) => {
         updateTournament(currentTournamentId, { ...tournamentData, name: user?.result?.name }),
       );
     } else {
-      dispatch(createTournament({ ...tournamentData, name: user?.result?.name }, history));
+      dispatch(createTournament({ ...tournamentData, name: user?.result?.name }, navigate));
     }
 
     clear();
@@ -74,7 +74,7 @@ const Form = ({ currentTournamentId, setCurrentTournamentId }) => {
         onSubmit={handleSubmit}
       >
         <Typography variant='h6'>
-          {currentTournamentId ? 'Editing' : 'Creating'} a Tournament
+          {currentTournamentId ? "Editing" : "Creating"} a Tournament
         </Typography>
         <TextField
           name='location'

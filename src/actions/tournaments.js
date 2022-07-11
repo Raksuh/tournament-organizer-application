@@ -1,4 +1,4 @@
-import * as api from '../api';
+import * as api from "../api";
 import {
   FETCH_ALL,
   FETCH_BY_QUERY,
@@ -11,7 +11,7 @@ import {
   DELETE,
   START_LOADING,
   END_LOADING,
-} from '../constants/actionTypes';
+} from "../constants/actionTypes";
 
 export const getTournaments = () => async (dispatch) => {
   try {
@@ -37,13 +37,13 @@ export const getTournamentsByQuery = (searchQuery) => async (dispatch) => {
   }
 };
 
-export const createTournament = (newTournament, history) => async (dispatch) => {
+export const createTournament = (newTournament, navigate) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
 
     const { data } = await api.createTournament(newTournament);
 
-    history.push(`/tournaments/${data._id}`);
+    navigate(`/tournaments/${data._id}`);
     dispatch({ type: CREATE, payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {

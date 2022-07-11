@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
-import { Paper, Typography, CircularProgress, Divider } from '@material-ui/core/';
-import { useDispatch, useSelector } from 'react-redux';
-import { format, parseISO, getYear } from 'date-fns';
-import { fr } from 'date-fns/locale';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Paper, Typography, CircularProgress, Divider } from "@material-ui/core/";
+import { useDispatch, useSelector } from "react-redux";
+import { format, parseISO, getYear } from "date-fns";
+import { fr } from "date-fns/locale";
+import { useParams, useNavigate } from "react-router-dom";
 
-import noImage from '../../../images/no-image.svg';
-import useStyles from './styles';
-import { getTournament, getTournamentsByQuery } from '../../../actions/tournaments';
-import CommentSection from './CommentSection';
+import noImage from "../../../images/no-image.svg";
+import useStyles from "./styles";
+import { getTournament, getTournamentsByQuery } from "../../../actions/tournaments";
+import CommentSection from "./CommentSection";
 
 const TournamentDetails = () => {
   const { tournament, tournaments, isLoading } = useSelector((state) => state.tournaments);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const classes = useStyles();
   const { id } = useParams();
 
@@ -23,7 +23,7 @@ const TournamentDetails = () => {
 
   useEffect(() => {
     if (tournament) {
-      dispatch(getTournamentsByQuery({ location: 'none', year: getYear(new Date()) }));
+      dispatch(getTournamentsByQuery({ location: "none", year: getYear(new Date()) }));
     }
   }, [tournament]);
 
@@ -42,11 +42,11 @@ const TournamentDetails = () => {
   const recommandedTournaments = tournaments.filter(({ _id: id }) => id !== tournament.id);
 
   const openTournament = (id) => {
-    history.push(`/tournaments/${id}`);
+    navigate(`/tournaments/${id}`);
   };
 
   return (
-    <Paper style={{ padding: '20px', borderRadius: '15px' }} elevation={6}>
+    <Paper style={{ padding: "20px", borderRadius: "15px" }} elevation={6}>
       <div className={classes.card}>
         <div className={classes.section}>
           <Typography variant='h3' component='h2'>
@@ -59,13 +59,13 @@ const TournamentDetails = () => {
           <Typography variant='body1'>
             {format(parseISO(tournament.createdAt), "'Created at : ' MM/dd/yyyy", { locale: fr })}
           </Typography>
-          <Divider style={{ margin: '20px 0' }} />
+          <Divider style={{ margin: "20px 0" }} />
           <Typography variant='body1'>
             <strong>Realtime Chat - coming soon!</strong>
           </Typography>
-          <Divider style={{ margin: '20px 0' }} />
+          <Divider style={{ margin: "20px 0" }} />
           <CommentSection tournament={tournament} />
-          <Divider style={{ margin: '20px 0' }} />
+          <Divider style={{ margin: "20px 0" }} />
         </div>
         <div className={classes.imageSection}>
           <img
@@ -89,7 +89,7 @@ const TournamentDetails = () => {
                       onClick={() => openTournament(id)}
                     >
                       <Typography gutterBottom variant='h6'>
-                        {location} -{' '}
+                        {location} -{" "}
                         {at && format(parseISO(at), "' at ' MM/dd/yyyy", { locale: fr })}
                       </Typography>
                       <Typography gutterBottom variant='subtitle2'>

@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { Grow, Container, Grid, AppBar, TextField, Button } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
-// import { useHistory, useLocation } from 'react-router'
-import { useHistory } from 'react-router';
+import React, { useState, useEffect } from "react";
+import { Grow, Container, Grid, AppBar, TextField, Button } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+// import { useNavigate, useLocation } from 'react-router'
+import { useNavigate } from "react-router";
 
-import { getTournaments, getTournamentsByQuery } from '../../actions/tournaments';
-import Tournaments from '../Tournaments/Tournaments';
-import Form from '../Form/Form';
+import { getTournaments, getTournamentsByQuery } from "../../actions/tournaments";
+import Tournaments from "../Tournaments/Tournaments";
+import Form from "../Form/Form";
 
-import useStyles from './styles';
+import useStyles from "./styles";
 
 // const useQuery = () => {
 //   return new URLSearchParams(useLocation().search)
@@ -18,12 +18,12 @@ const Home = () => {
   const [currentTournamentId, setCurrentTournamentId] = useState(0);
   const dispatch = useDispatch();
   // const query = useQuery()
-  const history = useHistory();
+  const navigate = useNavigate();
   // const page = query.get('page') || 1
   // const searchLocation = query.get('location')
   const classes = useStyles();
-  const [location, setLocation] = useState('');
-  const [month, setMonth] = useState('');
+  const [location, setLocation] = useState("");
+  const [month, setMonth] = useState("");
 
   useEffect(() => {
     dispatch(getTournaments());
@@ -37,9 +37,9 @@ const Home = () => {
           month,
         }),
       );
-      history.push(`/tournaments/search?location=${location || 'none'}`);
+      navigate(`/tournaments/search?location=${location || "none"}`);
     } else {
-      history.push('/');
+      navigate("/");
     }
   };
 

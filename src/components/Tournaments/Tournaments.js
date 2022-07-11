@@ -1,15 +1,15 @@
-import React from 'react';
-import { Grid, CircularProgress } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { Grid, CircularProgress } from "@material-ui/core";
+import { useSelector } from "react-redux";
 
-import Tournament from './Tournament/Tournament';
-import useStyles from './styles';
+import Tournament from "./Tournament/Tournament";
+import useStyles from "./styles";
 
 const Tournaments = ({ setCurrentTournamentId }) => {
   const classes = useStyles();
   const { tournaments, isLoading } = useSelector((state) => state.tournaments);
 
-  if (!tournaments.length && !isLoading) return 'No tournaments';
+  if (!tournaments.length && !isLoading) return "No tournaments";
 
   return isLoading ? (
     <CircularProgress />

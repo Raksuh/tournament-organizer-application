@@ -10,7 +10,7 @@ import {
   ADD_PLAYER,
   REMOVE_PLAYER,
   DELETE,
-} from '../constants/actionTypes';
+} from "../constants/actionTypes";
 
 export default (state = { isLoading: true, tournaments: [] }, action) => {
   switch (action.type) {
