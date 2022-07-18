@@ -78,12 +78,9 @@ export const updateTournament = (id, tournament) => async (dispatch) => {
 
 export const addComment = (tournamentId, comment) => async (dispatch) => {
   try {
-    dispatch({ type: START_LOADING });
-
     const { data } = await api.addComment(tournamentId, comment);
 
     dispatch({ type: ADD_COMMENT, payload: data });
-    dispatch({ type: END_LOADING });
 
     return data.comments;
   } catch (error) {

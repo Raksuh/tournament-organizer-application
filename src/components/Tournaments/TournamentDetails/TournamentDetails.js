@@ -31,6 +31,10 @@ const TournamentDetails = () => {
     return null;
   }
 
+  const openTournament = (_id) => {
+    navigate(`/tournaments/${_id}`);
+  };
+
   if (isLoading) {
     return (
       <Paper elevation={6} className={classes.loadingPaper}>
@@ -39,11 +43,7 @@ const TournamentDetails = () => {
     );
   }
 
-  const recommandedTournaments = tournaments.filter(({ _id: id }) => id !== tournament.id);
-
-  const openTournament = (id) => {
-    navigate(`/tournaments/${id}`);
-  };
+  const recommandedTournaments = tournaments.filter(({ _id }) => _id !== tournament._id);
 
   return (
     <Paper style={{ padding: "20px", borderRadius: "15px" }} elevation={6}>
@@ -74,39 +74,37 @@ const TournamentDetails = () => {
             alt={tournament.location}
           />
         </div>
-        {recommandedTournaments.length && (
+        {!!recommandedTournaments.length && (
           <div className={classes.section}>
             <Typography gutterBottom variant='h5'>
               You might also register:
             </Typography>
-            <Divider>
-              <div className={classes.recommendedTournaments}>
-                {recommandedTournaments.map(
-                  ({ name, location, at, dueDate, selectedFile, players, _id: id }) => (
-                    <div
-                      key={id}
-                      className={classes.recommendedTournament}
-                      onClick={() => openTournament(id)}
-                    >
-                      <Typography gutterBottom variant='h6'>
-                        {location} -{" "}
-                        {at && format(parseISO(at), "' at ' MM/dd/yyyy", { locale: fr })}
-                      </Typography>
-                      <Typography gutterBottom variant='subtitle2'>
-                        {name}
-                      </Typography>
-                      <Typography gutterBottom variant='subtitle2'>
-                        {dueDate && format(parseISO(dueDate), "'At ' MM/dd/yyyy", { locale: fr })}
-                      </Typography>
-                      <Typography gutterBottom variant='subtitle1'>
-                        Number of players {players.length}
-                      </Typography>
-                      <img src={selectedFile || noImage} alt={location} width='200px' />
-                    </div>
-                  ),
-                )}
-              </div>
-            </Divider>
+            <Divider />
+            <div className={classes.recommendedTournaments}>
+              {recommandedTournaments.map(
+                ({ name, location, at, dueDate, selectedFile, players, _id }) => (
+                  <div
+                    key={_id}
+                    className={classes.recommendedTournament}
+                    onClick={() => openTournament(_id)}
+                  >
+                    <Typography gutterBottom variant='h6'>
+                      {location} - {at && format(parseISO(at), "' at ' MM/dd/yyyy", { locale: fr })}
+                    </Typography>
+                    <Typography gutterBottom variant='subtitle2'>
+                      {name}
+                    </Typography>
+                    <Typography gutterBottom variant='subtitle2'>
+                      {dueDate && format(parseISO(dueDate), "'At ' MM/dd/yyyy", { locale: fr })}
+                    </Typography>
+                    <Typography gutterBottom variant='subtitle1'>
+                      Number of players {players.length}
+                    </Typography>
+                    <img src={selectedFile || noImage} alt={location} width='200px' />
+                  </div>
+                ),
+              )}
+            </div>
           </div>
         )}
       </div>

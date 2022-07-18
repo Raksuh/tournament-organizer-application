@@ -59,8 +59,7 @@ const Tournament = ({ tournament, setCurrentTournamentId }) => {
     );
   };
 
-  const openTournamentDetails = (e) => {
-    console.log(e.target || e.srcElement);
+  const openTournamentDetails = () => {
     navigate(`/tournaments/${tournament._id}`);
   };
 

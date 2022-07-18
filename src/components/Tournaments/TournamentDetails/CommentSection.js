@@ -13,12 +13,14 @@ const CommentSection = ({ tournament }) => {
   const commentsRef = useRef();
 
   const handleClick = async () => {
-    const finalComment = `${user.result.name}: ${comment}`;
-    const newComments = await dispatch(addComment(tournament._id, finalComment));
-    setComments(newComments);
-    setComment("");
+    const newComments = await dispatch(
+      addComment(tournament._id, `${user?.result?.name}: ${comment}`),
+    );
 
-    commentsRef.current.scrollIntoView({ behaviour: "smooth" });
+    setComment("");
+    setComments(newComments);
+
+    commentsRef.current?.scrollIntoView({ block: "center", behavior: "smooth" });
   };
 
   return (
@@ -28,9 +30,9 @@ const CommentSection = ({ tournament }) => {
           <Typography gutterBottom variant='h6'>
             Comments
           </Typography>
-          {comments.map((comment, index) => (
+          {comments?.map((comment, index) => (
             <Typography key={index} gutterBottom variant='subtitle1'>
-              <strong>{comment.split(":")[0]}</strong>
+              <strong>{`${comment.split(":")[0]} :`}</strong>
               {comment.split(":")[1]}
             </Typography>
           ))}
@@ -53,9 +55,9 @@ const CommentSection = ({ tournament }) => {
             <Button
               style={{ marginTop: "10px" }}
               fullWidth
-              disabled={!comment}
-              variant='contained'
+              disabled={!comment.length}
               color='primary'
+              variant='contained'
               onClick={handleClick}
             >
               Comment

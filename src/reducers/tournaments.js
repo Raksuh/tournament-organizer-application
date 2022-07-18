@@ -32,15 +32,18 @@ export default (state = { isLoading: true, tournaments: [] }, action) => {
     case REMOVE_PLAYER:
       return {
         ...state,
-        tournaments: state.tournaments.map((tournament) =>
-          tournament._id === action.payload._id ? action.payload : tournament,
-        ),
+        tournaments: state.tournaments.map((tournament) => {
+          if (tournament._id === action.payload._id) {
+            return action.payload;
+          }
+          return tournament;
+        }),
       };
     case ADD_COMMENT:
       return {
         ...state,
         tournaments: state.tournaments.map((tournament) => {
-          if (tournament._id === action.payload._id) {
+          if (tournament._id == +action.payload._id) {
             // payload is tournament comments
             return action.payload;
           }
