@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button, Typography, Paper } from "@material-ui/core";
+import { TextField, Button, Typography, Paper } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import FileBase from "react-file-base64";
 import useStyles from "./styles";
-import { createTournament, updateTournament } from "../../actions/tournaments";
+import { createTournament, updateTournament } from "../../redux/actions/tournaments";
 import { useNavigate } from "react-router-dom";
 
 const Form = ({ currentTournamentId, setCurrentTournamentId }) => {
@@ -22,11 +22,11 @@ const Form = ({ currentTournamentId, setCurrentTournamentId }) => {
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const connectedUser = useSelector((state) => state.auth.connectedUser);
 
   useEffect(() => {
     if (tournament) setTournamentData(tournament);
-  }, [tournament]);
+  }, [tournament, connectedUser]);
 
   const clear = () => {
     setCurrentTournamentId(null);
@@ -46,16 +46,21 @@ const Form = ({ currentTournamentId, setCurrentTournamentId }) => {
 
     if (currentTournamentId) {
       dispatch(
-        updateTournament(currentTournamentId, { ...tournamentData, name: user?.result?.name }),
+        updateTournament(currentTournamentId, {
+          ...tournamentData,
+          name: connectedUser?.result?.name,
+        }),
       );
     } else {
-      dispatch(createTournament({ ...tournamentData, name: user?.result?.name }, navigate));
+      dispatch(
+        createTournament({ ...tournamentData, name: connectedUser?.result?.name }, navigate),
+      );
     }
 
     clear();
   };
 
-  if (!user?.result?.name) {
+  if (!connectedUser?.result?.name) {
     return (
       <Paper className={classes.paper}>
         <Typography variant='h6' align='center'>

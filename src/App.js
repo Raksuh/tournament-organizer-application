@@ -1,32 +1,56 @@
 import React from "react";
-import { Container } from "@material-ui/core";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
-import NavBar from "./components/NavBar/NavBar";
-import Home from "./components/Home/Home";
-import Auth from "./components/Auth/Auth";
-import TournamentDetails from "./components/Tournaments/TournamentDetails/TournamentDetails";
+import "./app.css";
+
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+
+import { AuthProvider } from "./providers/AuthProvider";
+import { RouterConfig } from "./navigation/RouterConfig";
+import Copyright from "./components/Copyright/Copyright";
+import AppBar from "./components/AppBar/AppBar";
+
+const theme = createTheme();
 
 const App = () => {
-  // const user = JSON.parse(localStorage.getItem('profile'));
-
   return (
     <BrowserRouter>
-      <Container maxWidth='lg'>
-        <NavBar />
-        <Routes>
-          <Route path='/' exact element={<Navigate to='/tournaments' replace />} />
-          <Route path='/tournaments' exact element={<Home />} />
-          <Route path='/tournaments/search' exact element={<Home />} />
-          <Route path='/tournaments/:id' exact element={<TournamentDetails />} />
-          <Route
-            path='/auth'
-            exact
-            element={<Auth />}
-            // render={() => (!user ? <Auth /> : <Navigate to='/tournaments' />)}
-          />
-        </Routes>
-      </Container>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AuthProvider>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
+            }}
+          >
+            <AppBar />
+            <Container component='main' maxWidth='md' sx={{ mb: 4 }}>
+              <RouterConfig />
+            </Container>
+            <Box
+              component='footer'
+              sx={{
+                py: 3,
+                px: 2,
+                mt: "auto",
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "light"
+                    ? theme.palette.grey[200]
+                    : theme.palette.grey[800],
+              }}
+            >
+              <Container maxWidth='sm'>
+                <Copyright />
+              </Container>
+            </Box>
+          </Box>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 };
