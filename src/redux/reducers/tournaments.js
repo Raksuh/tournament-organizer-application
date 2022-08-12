@@ -6,9 +6,6 @@ import {
   CREATE,
   FETCH_TOURNAMENT,
   UPDATE,
-  ADD_COMMENT,
-  ADD_PLAYER,
-  REMOVE_PLAYER,
   DELETE,
 } from "../constants/actions";
 
@@ -28,23 +25,10 @@ export default (state = { isLoading: true, tournaments: [] }, action) => {
     case FETCH_TOURNAMENT:
       return { ...state, tournament: action.payload };
     case UPDATE:
-    case ADD_PLAYER:
-    case REMOVE_PLAYER:
       return {
         ...state,
         tournaments: state.tournaments.map((tournament) => {
           if (tournament._id === action.payload._id) {
-            return action.payload;
-          }
-          return tournament;
-        }),
-      };
-    case ADD_COMMENT:
-      return {
-        ...state,
-        tournaments: state.tournaments.map((tournament) => {
-          if (tournament._id == +action.payload._id) {
-            // payload is tournament comments
             return action.payload;
           }
           return tournament;

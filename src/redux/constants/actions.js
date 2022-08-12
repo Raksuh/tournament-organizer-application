@@ -8,9 +8,6 @@ export const FETCH_BY_QUERY = "FETCH_BY_QUERY";
 export const CREATE = "CREATE";
 export const FETCH_TOURNAMENT = "FETCH_TOURNAMENT";
 export const UPDATE = "UPDATE";
-export const ADD_PLAYER = "ADD_PLAYER";
-export const REMOVE_PLAYER = "REMOVE_PLAYER";
-export const ADD_COMMENT = "ADD_COMMENT";
 export const DELETE = "DELETE";
 
 // Auth

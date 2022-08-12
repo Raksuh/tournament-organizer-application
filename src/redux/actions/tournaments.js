@@ -4,9 +4,6 @@ import {
   CREATE,
   FETCH_TOURNAMENT,
   UPDATE,
-  ADD_COMMENT,
-  ADD_PLAYER,
-  REMOVE_PLAYER,
   DELETE,
   START_LOADING,
   END_LOADING,
@@ -76,48 +73,12 @@ export const updateTournament = (id, tournament) => async (dispatch) => {
   }
 };
 
-export const addComment = (tournamentId, comment) => async (dispatch) => {
-  try {
-    const { data } = await api.addComment(tournamentId, comment);
-
-    dispatch({ type: ADD_COMMENT, payload: data });
-
-    return data.comments;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export const deleteTournament = (id) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING });
 
     await api.deleteTournament(id);
     dispatch({ type: DELETE, payload: id });
-    dispatch({ type: END_LOADING });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const addPlayer = (tournamentId) => async (dispatch) => {
-  try {
-    dispatch({ type: START_LOADING });
-
-    const { data } = await api.addPlayer(tournamentId);
-    dispatch({ type: ADD_PLAYER, payload: data });
-    dispatch({ type: END_LOADING });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const removePlayer = (tournamentId) => async (dispatch) => {
-  try {
-    dispatch({ type: START_LOADING });
-
-    const { data } = await api.removePlayer(tournamentId);
-    dispatch({ type: REMOVE_PLAYER, payload: data });
     dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
